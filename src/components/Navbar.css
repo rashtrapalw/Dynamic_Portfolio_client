@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+/* Navbar Base */
+.custom-navbar {
+  background: linear-gradient(90deg, #007bff, #6610f2);
+  padding: 0.8rem 0;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+/* Brand Logo */
+.navbar-brand {
+  color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #d1d1ff !important;
+}
+
+.brand-highlight {
+  color: #ffcc00;
+}
+
+/* Nav Links */
+.nav-link {
+  color: #e4e4e4 !important;
+  font-weight: 500;
+  margin-left: 15px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 0%;
+  height: 2px;
+  background: #ffcc00;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.nav-link:hover {
+  color: #ffffff !important;
+  transform: scale(1.05);
+}
+
+/* Active Link */
+.active-link {
+  color: #fff !important;
+}
+
+.active-link::after {
+  width: 80%;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar-nav {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 10px;
+  }
+}

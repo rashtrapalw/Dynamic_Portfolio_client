@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Admin.css";
 
 function Admin() {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ function Admin() {
   });
   const [loading, setLoading] = useState(true);
 
-  // Fetch existing portfolio
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
@@ -40,14 +40,12 @@ function Admin() {
     fetchPortfolio();
   }, []);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleProjectChange = (index, e) => {
-    const newProjects = [...form.projects];
-    newProjects[index][e.target.name] = e.target.value;
-    setForm({ ...form, projects: newProjects });
+    const updated = [...form.projects];
+    updated[index][e.target.name] = e.target.value;
+    setForm({ ...form, projects: updated });
   };
 
   const addProject = () => {
@@ -58,9 +56,9 @@ function Admin() {
   };
 
   const removeProject = (index) => {
-    const newProjects = [...form.projects];
-    newProjects.splice(index, 1);
-    setForm({ ...form, projects: newProjects });
+    const updated = [...form.projects];
+    updated.splice(index, 1);
+    setForm({ ...form, projects: updated });
   };
 
   const handleContactChange = (e) => {
@@ -69,7 +67,6 @@ function Admin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = {
       ...form,
       skills: form.skills.split(",").map((s) => s.trim()).filter(Boolean),
@@ -77,81 +74,154 @@ function Admin() {
 
     try {
       if (portfolio?._id) {
-        // update existing portfolio
         await axios.put(`http://127.0.0.1:5000/api/portfolio/${portfolio._id}`, data);
         alert("Portfolio updated successfully!");
       } else {
-        // create new portfolio
         const res = await axios.post("http://127.0.0.1:5000/api/portfolio", data);
         setPortfolio(res.data.portfolio);
         alert("Portfolio created successfully!");
       }
-
-      navigate("/"); // redirect to home
+      navigate("/");
     } catch (err) {
-      console.error("Portfolio save error:", err.response || err);
-      alert("Error saving portfolio. Check console for details.");
+      console.error("Error saving portfolio:", err.response || err);
+      alert("Error saving portfolio.");
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="text-center mt-5">Loading...</div>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Admin Panel</h2>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", maxWidth: "600px" }}>
-        {/* Basic Info */}
-        <input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-        <input name="title" placeholder="Title" value={form.title} onChange={handleChange} />
-        <textarea name="about" placeholder="About" value={form.about} onChange={handleChange} />
-        <input name="skills" placeholder="Skills (comma separated)" value={form.skills} onChange={handleChange} />
+    <div className="container my-5">
+      <div className="card shadow-lg p-4 border-0 rounded-4">
+        <h2 className="text-center mb-4 text-primary fw-bold">Admin Panel</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="row g-3">
+            <div className="col-md-6">
+              <label className="form-label fw-semibold">Name</label>
+              <input
+                className="form-control"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label fw-semibold">Title</label>
+              <input
+                className="form-control"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-        {/* Projects */}
-        <h3>Projects</h3>
-        {form.projects.map((proj, index) => (
-          <div key={index} style={{ marginBottom: "10px", border: "1px solid #ccc", padding: "10px" }}>
-            <input
-              name="title"
-              placeholder="Project Title"
-              value={proj.title}
-              onChange={(e) => handleProjectChange(index, e)}
+          <div className="mt-3">
+            <label className="form-label fw-semibold">About</label>
+            <textarea
+              className="form-control"
+              name="about"
+              rows="3"
+              value={form.about}
+              onChange={handleChange}
             />
+          </div>
+
+          <div className="mt-3">
+            <label className="form-label fw-semibold">Skills (comma separated)</label>
             <input
-              name="description"
-              placeholder="Description"
-              value={proj.description}
-              onChange={(e) => handleProjectChange(index, e)}
+              className="form-control"
+              name="skills"
+              value={form.skills}
+              onChange={handleChange}
             />
-            <input
-              name="github"
-              placeholder="GitHub URL"
-              value={proj.github}
-              onChange={(e) => handleProjectChange(index, e)}
-            />
-            <input
-              name="demo"
-              placeholder="Demo URL"
-              value={proj.demo}
-              onChange={(e) => handleProjectChange(index, e)}
-            />
-            <button type="button" onClick={() => removeProject(index)} style={{ marginTop: "5px" }}>
-              Remove Project
+          </div>
+
+          <h4 className="mt-4 text-secondary fw-bold">Projects</h4>
+          {form.projects.map((proj, index) => (
+            <div key={index} className="card p-3 mt-3 border-0 shadow-sm">
+              <div className="row g-2">
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    name="title"
+                    placeholder="Project Title"
+                    value={proj.title}
+                    onChange={(e) => handleProjectChange(index, e)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    name="description"
+                    placeholder="Description"
+                    value={proj.description}
+                    onChange={(e) => handleProjectChange(index, e)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    name="github"
+                    placeholder="GitHub URL"
+                    value={proj.github}
+                    onChange={(e) => handleProjectChange(index, e)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    name="demo"
+                    placeholder="Demo URL"
+                    value={proj.demo}
+                    onChange={(e) => handleProjectChange(index, e)}
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => removeProject(index)}
+                className="btn btn-outline-danger btn-sm mt-3"
+              >
+                Remove Project
+              </button>
+            </div>
+          ))}
+
+          <button type="button" onClick={addProject} className="btn btn-success mt-3">
+            + Add Project
+          </button>
+
+          <h4 className="mt-4 text-secondary fw-bold">Contact</h4>
+          <div className="row g-3">
+            <div className="col-md-6">
+              <input
+                className="form-control"
+                name="email"
+                placeholder="Email"
+                value={form.contact.email}
+                onChange={handleContactChange}
+              />
+            </div>
+            <div className="col-md-6">
+              <input
+                className="form-control"
+                name="phone"
+                placeholder="Phone"
+                value={form.contact.phone}
+                onChange={handleContactChange}
+              />
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-center mt-4">
+            <button className="btn btn-primary px-4 py-2 rounded-3">
+              Save Portfolio
             </button>
           </div>
-        ))}
-        <button type="button" onClick={addProject} style={{ marginBottom: "10px" }}>
-          Add Project
-        </button>
-
-        {/* Contact */}
-        <h3>Contact</h3>
-        <input name="email" placeholder="Email" value={form.contact.email} onChange={handleContactChange} />
-        <input name="phone" placeholder="Phone" value={form.contact.phone} onChange={handleContactChange} />
-
-        <button type="submit" style={{ marginTop: "10px" }}>
-          Save Portfolio
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

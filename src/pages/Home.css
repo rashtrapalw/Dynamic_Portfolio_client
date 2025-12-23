@@ -1,31 +1,121 @@
-/* Fade-in for sections */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+body, .home-page {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #333;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(120deg, #007bff, #6610f2);
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-section h1 {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  color: #f8f9fa;
+}
+
+/* Section Styling */
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  position: relative;
+  color: #343a40;
+  margin-bottom: 15px;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #007bff;
+  margin-top: 5px;
+}
+
+.section-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+/* Skills */
+.skill-badge {
+  background: #007bff !important;
+  color: white !important;
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 25px;
+  transition: 0.3s ease;
+}
+
+.skill-badge:hover {
+  background: #6610f2 !important;
+  transform: scale(1.05);
+}
+
+/* Projects */
+.project-card {
+  transition: 0.4s ease;
+  border-radius: 15px;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Contact */
+.link-email {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link-email:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  background: #212529;
+}
+
+/* Animations */
 .section-animate {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 0.8s forwards;
-  animation-delay: 0.3s;
+  animation: fadeInUp 1s ease;
 }
 
 @keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-}
-
-/* Hero section animation */
-.hero-section h1,
-.hero-section p {
-  opacity: 0;
-  transform: translateY(-20px);
-  animation: fadeInDown 1s forwards;
-}
-
-.hero-section p {
-  animation-delay: 0.5s;
-}
-
-@keyframes fadeInDown {
   to {
     opacity: 1;
     transform: translateY(0);
