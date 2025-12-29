@@ -76,10 +76,10 @@ function Admin() {
 
     try {
       if (portfolio?._id) {
-        await axios.put(`http://127.0.0.1:5000/api/portfolio/${portfolio._id}`, data);
+        await axios.put(`${API_URL}/api/portfolio/${portfolio._id}`, data);
         alert("Portfolio updated successfully!");
       } else {
-        const res = await axios.post("http://127.0.0.1:5000/api/portfolio", data);
+        const res = await axios.post(`${API_URL}/api/portfolio`, data);
         setPortfolio(res.data.portfolio);
         alert("Portfolio created successfully!");
       }
