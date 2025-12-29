@@ -16,10 +16,12 @@ function Admin() {
   });
   const [loading, setLoading] = useState(true);
 
+   const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:5000/api/portfolio");
+        const res = await axios.get(`${API_URL}/api/portfolio`);
         if (res.data) {
           setPortfolio(res.data);
           setForm({

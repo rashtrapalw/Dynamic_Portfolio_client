@@ -3,12 +3,18 @@ import axios from "axios";
 import "./Home.css"; // custom style file
 import "animate.css";
 
+
 function Home() {
   const [portfolio, setPortfolio] = useState(null);
 
+  
+  const API_URL = import.meta.env.VITE_API_URL;
+  // console.log(import.meta.env.VITE_API_URL);
+
+
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/api/portfolio")
+      .get(`${API_URL}/api/portfolio`)
       .then((res) => setPortfolio(res.data))
       .catch((err) => console.log(err));
   }, []);
